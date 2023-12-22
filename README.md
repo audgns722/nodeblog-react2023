@@ -134,3 +134,10 @@ Redux는 React와 함께 사용되는 상태 관리 라이브러리로, 애플�
 
 ## 추가 정리
 서버 제작 과정에서 body-parser 미들웨어 사용 항목을 추가하여 요청 데이터를 처리하는 방법을 상세히 설명했습니다.
+
+
+## 배포하기
+
+heroku CLI 설치
+`npm install -g heroku` 설치
+터미널에서 실행(heroku login)로그인
