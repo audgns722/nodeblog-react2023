@@ -141,3 +141,4 @@ Redux는 React와 함께 사용되는 상태 관리 라이브러리로, 애플�
 heroku CLI 설치
 `npm install -g heroku` 설치
 터미널에서 실행(heroku login)로그인
+`heroku logs --tail`
