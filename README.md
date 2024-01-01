@@ -214,6 +214,49 @@ npm install multer-s3 --save // 2.10.0 ver
    이 명령어는 현재 디렉토리와 하위 디렉토리에 있는 모든 파일을 Git 추적 목록에서 제거합니다.
 
 </details>
+<details>
+<summary>Async/Await을 사용하지 않아 발생한 문제</summary>
+
+- 문제상황
+  async/await을 사용하지 않고 MongoDB의 쿼리를 실행했습니다.
+  데이터베이스 작업이 완료되기 전에 다음 코드 라인이 실행되었고, 이는 불완전한 데이터 처리 및 응답으로 이어졌습니다.
+- 문제의 원인
+  JavaScript는 비동기적으로 작동하며, 특히 MongoDB와 같은 데이터베이스 작업은 시간이 걸릴 수 있습니다.
+  async/await 없이는 쿼리가 완료되기를 기다리지 않고 코드가 계속 실행되어, 데이터베이스 작업이 완료되기 전에 응답을 보내거나 다른 작업을 수행할 수 있습니다.
+- 해결 방법
+  Express 라우터에서 async/await 패턴을 적용하여 MongoDB 쿼리를 순차적으로 실행하도록 변경했습니다.
+  이는 데이터베이스 작업이 완료될 때까지 함수 실행을 "일시 중지"하고, 작업이 완료된 후에 다음 코드 라인을 실행합니다.
+```javascript
+router.post("/submit", async (req, res) => {
+  try {
+      let temp = {
+          reple: req.body.reple,
+          postId: req.body.postId,
+      };
+
+      // User 정보를 찾고, 결과가 반환될 때까지 기다립니다.
+      const userInfo = await User.findOne({ uid: req.body.uid }).exec();
+      temp.author = userInfo._id;
+
+      // 새 댓글을 저장하고, 저장이 완료될 때까지 기다립니다.
+      const NewReple = new Reple(temp);
+      await NewReple.save();
+
+      // 게시글의 댓글 수를 업데이트하고, 업데이트가 완료될 때까지 기다립니다.
+      await Post.findOneAndUpdate(
+          { _id: req.body.postId },
+          { $inc: { repleNum: 1 } }
+      ).exec();
+
+      return res.status(200).json({ success: true });
+  } catch (err) {
+      console.log(err);
+      return res.status(400).json({ success: false });
+  }
+});
+```
+
+</details>
 
 ## 프로젝트 결과
 
