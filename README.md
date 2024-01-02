@@ -142,3 +142,4 @@ heroku CLI 설치
 `npm install -g heroku` 설치
 터미널에서 실행(heroku login)로그인
 `heroku logs --tail`
+`git subtree push --prefix App heroku main`
