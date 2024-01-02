@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Avatar from 'react-avatar';
+import { LiaUserEditSolid } from "react-icons/lia";
 
 import moment from 'moment';
 import "moment/locale/ko";
