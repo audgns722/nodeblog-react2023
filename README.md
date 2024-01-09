@@ -271,9 +271,4 @@ router.post("/submit", async (req, res) => {
 이 프로젝트는 개인 학습 목적으로 제작되었습니다.
 
 ## 배포하기
-
-heroku CLI 설치
-`npm install -g heroku` 설치
-터미널에서 실행(heroku login)로그인
-`heroku logs --tail`
-`git subtree push --prefix App heroku main`
+-배포과정 미정 fly.io 예정
